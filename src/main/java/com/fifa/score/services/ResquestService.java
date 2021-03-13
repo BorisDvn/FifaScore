@@ -1,13 +1,15 @@
 package com.fifa.score.services;
 
 import org.springframework.http.*;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
+@Service
 public class ResquestService {
-    public connectToFootApi(String url){
-       //String url = "https://api.football-data.org/v2/competitions/" + "2001" + "/teams?season=2020";
+    public ResponseEntity<Map> connectToFootApi(String url) {
+        //String url = "https://api.football-data.org/v2/competitions/" + "2001" + "/teams?season=2020";
 
         // create an instance of RestTemplate
         RestTemplate restTemplate = new RestTemplate();
@@ -29,12 +31,14 @@ public class ResquestService {
         );
 
         // check response
-        if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println("Request Successful.");
+        if (response.getStatusCode() == HttpStatus.OK && response.hasBody()) {
+            // System.out.println("Request Successful.");
             // System.out.println(response.getBody());
+            return response;
         } else {
-            System.out.println("Request Failed");
-            System.out.println(response.getStatusCode());
+            return null;
+            // System.out.println("Request Failed");
+            // System.out.println(response.getStatusCode());
         }
     }
 }

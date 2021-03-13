@@ -3,11 +3,11 @@ package com.fifa.score.controllers;
 import com.fifa.score.models.Club;
 import com.fifa.score.models.League;
 import com.fifa.score.services.ClubService;
-import org.springframework.http.*;
+import com.fifa.score.services.ResquestService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,44 +20,22 @@ public class ClubController {
 
     private final ClubService clubService;
 
-    public ClubController(ClubService clubService) {
+    private final ResquestService resquestService;
+
+
+    public ClubController(ClubService clubService, ResquestService resquestService) {
         this.clubService = clubService;
+        this.resquestService = resquestService;
     }
 
     @GetMapping("initialisation")
     public ResponseEntity<String> initialisationClub() {
 
-        String url = "https://api.football-data.org/v2/competitions/" +"2021" + "/teams?season=2020";
-
-        // create an instance of RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
-
-        // create headers
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Auth-Token", "1856b1a8efff4d118603a3a889e93e66");
-        //headers.set();
-
-        // build the request
-        HttpEntity request = new HttpEntity(headers);
-
-        // make an HTTP GET request with headers
-        ResponseEntity<Map> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                request,
-                Map.class
-        );
-
-        // check response
-        if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println("Request Successful.");
-            // System.out.println(response.getBody());
-        } else {
-            System.out.println("Request Failed");
-            System.out.println(response.getStatusCode());
-        }
-
         try {
+            ResponseEntity<Map> response = resquestService.connectToFootApi("https://api.football-data.org/v2/competitions/2021/teams?season=2020");
+            assert response != null;
+
+            @SuppressWarnings("unchecked")
             List<Object> clubApi = (List<Object>) Objects.requireNonNull(response.getBody()).get("teams");
             assert clubApi != null;
             List<Club> clubs = new ArrayList<Club>();
@@ -67,6 +45,7 @@ public class ClubController {
             for (int i = 0; i < clubApi.size(); i++) {
                 Club club = new Club();
 
+                @SuppressWarnings("unchecked")
                 Map<String, Object> clubFromApi = (Map<String, Object>) clubApi.get(i);
 
                 club.setId_club(Long.parseLong(String.valueOf(clubFromApi.get("id"))));
