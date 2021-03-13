@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/clubController")
+@RequestMapping("/score/v1/clubController")
 public class ClubController {
 
     private final ClubService clubService;
@@ -26,7 +26,8 @@ public class ClubController {
 
     @GetMapping("initialisation")
     public ResponseEntity<String> initialisationClub() {
-        final String url = "https://api.football-data.org/v2/competitions/2021/teams?season=2020";
+
+        String url = "https://api.football-data.org/v2/competitions/" +"2021" + "/teams?season=2020";
 
         // create an instance of RestTemplate
         RestTemplate restTemplate = new RestTemplate();
