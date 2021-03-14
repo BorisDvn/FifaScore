@@ -36,12 +36,12 @@ public class ClubController {
 
             //Objects.requireNonNull(response);
 
-            assert response != null :"tp" ;
+            //assert response != null :"tp" ;
             //System.out.println("test1");
 
             @SuppressWarnings("unchecked")
             List<Object> clubApi = (List<Object>) Objects.requireNonNull(response.getBody()).get("teams");
-            assert clubApi != null;
+            //assert clubApi != null;
             List<Club> clubs = new ArrayList<Club>();
             League l = new League();
             l.setId_league(2021);

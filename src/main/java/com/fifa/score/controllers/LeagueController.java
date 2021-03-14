@@ -1,13 +1,18 @@
 package com.fifa.score.controllers;
 
 import com.fifa.score.services.LeagueService;
+import com.fifa.score.services.RequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,53 +21,40 @@ import java.util.stream.Stream;
 public class LeagueController {
     private final LeagueService leagueService;
 
-    public LeagueController(LeagueService leagueService) {
+    private final RequestService requestService;
+
+    public LeagueController(LeagueService leagueService, RequestService requestService) {
         this.leagueService = leagueService;
+        this.requestService = requestService;
     }
 
     @GetMapping("initialisation")
     public ResponseEntity<String> initialisationClub() {
 
-        Map<String, Integer> listeOfCompetition = Stream.of(new Object[][]{
+        Map<String, Integer> listeOfLeague = Stream.of(new Object[][]{
                 {"Laliga", 2014}, {"SerieA", 2019}, {"PremierLeague", 2021},
-                {"Bundesliga", 2002}, {"Ligue1", 2015}, {"Country", 2000}
+                {"Bundesliga", 2002}, {"Ligue1", 2015}
         }).collect(Collectors.toMap(data -> (String) data[0], data -> (Integer) data[1]));
 
-        // notify dependence with internet
-        // need sleep time
-        listeOfCompetition.forEach((k, v) ->{
-            String url = "https://api.football-data.org/v2/competitions/" + "v" + "/teams?season=2020";
+        //, {"Country", 2000}
+        listeOfLeague.forEach((k, v) -> {
+            //String url = "https://api.football-data.org/v2/competitions/" + 2000 + "/teams?season=2020";
+            // Fifa Word Cup 2018
+            String url = "https://api.football-data.org/v2/competitions/" + 2000 + "/teams";
+            ResponseEntity<Map> response = requestService.connectToFootApi(url);
+            System.out.println(response);
+            @SuppressWarnings("unchecked")
+            Map<String, Object> competition = Objects.requireNonNull(response.getBody());
+            System.out.println(competition);
+            // When internet is low
+            //try {
+            //    TimeUnit.SECONDS.sleep(2);
+            //} catch (InterruptedException e) {
+            //    e.printStackTrace();
+            //}
 
         });
-        String url = "https://api.football-data.org/v2/competitions/" + "2001" + "/teams?season=2020";
 
-        // create an instance of RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
-
-        // create headers
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Auth-Token", "1856b1a8efff4d118603a3a889e93e66");
-        //headers.set();
-
-        // build the request
-        HttpEntity request = new HttpEntity(headers);
-
-        // make an HTTP GET request with headers
-        ResponseEntity<Map> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                request,
-                Map.class
-        );
-
-        // check response
-        if (response.getStatusCode() == HttpStatus.OK) {
-            System.out.println("Request Successful.");
-            // System.out.println(response.getBody());
-        } else {
-            System.out.println("Request Failed");
-            System.out.println(response.getStatusCode());
-        }
         return null;
     }
 
