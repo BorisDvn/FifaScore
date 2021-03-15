@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class RequestService {
@@ -14,14 +15,15 @@ public class RequestService {
 
         // create headers
         HttpHeaders headers = new HttpHeaders();
+        // with add or with headers.set();
         headers.add("X-Auth-Token", "1856b1a8efff4d118603a3a889e93e66");
-        // or with headers.set();
 
         // build the request
         HttpEntity<?> request = new HttpEntity<>(headers);
 
         // make an HTTP GET request with headers
         try {
+            Objects.requireNonNull(url);
             ResponseEntity<Map> response = restTemplate.exchange(
                     url,
                     HttpMethod.GET,
@@ -37,7 +39,7 @@ public class RequestService {
                 return null;
             }
         } catch (Exception e) {
-            System.out.println("RequestService"+e.toString());
+            System.out.println("RequestService: "+e.toString());
             return null;
         }
     }
