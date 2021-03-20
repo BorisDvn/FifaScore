@@ -2,13 +2,15 @@ package com.fifa.score.services;
 
 import com.fifa.score.models.League;
 import com.fifa.score.repositories.LeagueRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,19 +24,26 @@ public class LeagueService {
         this.requestService = requestService;
     }
 
-    public ResponseEntity<String> addLeague(List<League> leagues) {
-        try {
-            leagueRepository.saveAll(leagues);
-            return ResponseEntity.ok().body("Successfully added");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().body("Error: Can't add this club");
-        }
+    public League getLeague(Long id) {
+        return leagueRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
+    public List<League> findAll() {
+        return leagueRepository.findAll();
     }
 
     public List<Long> getListOfLeagueIds() {
         return leagueRepository.getlistofLeagueIds();
     }
+
+    public void addLeague(League league) {
+        leagueRepository.save(league);
+    }
+
+    public void addLeague(List<League> leagues) {
+        leagueRepository.saveAll(leagues);
+    }
+
 
     public ResponseEntity<String> initialisationOfCompetition() {
         // List of 5 Leagues and World Cup
@@ -61,8 +70,8 @@ public class LeagueService {
             //} catch (InterruptedException e) {
             //    e.printStackTrace();
             //}
-            League league = new League();
 
+            League league = new League();
             league.setId_league(Long.parseLong(String.valueOf(competition.get("id"))));
             league.setImage((String) competition.get("emblemUrl"));
             league.setName((String) competition.get("name"));
@@ -71,6 +80,31 @@ public class LeagueService {
         });
         addLeague(leagues);
         return ResponseEntity.ok().body("Successfully initialised");
+    }
+
+    public ResponseEntity<String> updateLeague (long id, Map<String, Object> league) {
+        League league1 = getLeague(id);
+
+        league.forEach((element, value) -> {
+            switch (element) {
+                case "name":
+                    league1.setName((String) value);
+                    break;
+                case "description":
+                    league1.setImage((String) value);
+                    break;
+            }
+        });
+
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        Set<ConstraintViolation<League>> violations = validator.validate(league1);
+
+        if (!violations.isEmpty()) {
+            return ResponseEntity.badRequest().body(violations.toString());
+        }
+
+        addLeague(league1);
+        return ResponseEntity.ok().body("Successfully updated");
     }
 
 }
