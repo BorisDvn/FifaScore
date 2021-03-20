@@ -34,4 +34,8 @@ public class ClubService {
             return ResponseEntity.badRequest().body("Error: Can't add this club");
         }
     }
+
+    public ResponseEntity<String> initialisationClubFromLeague() {
+        return null;
+    }
 }

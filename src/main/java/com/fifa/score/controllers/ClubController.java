@@ -29,7 +29,7 @@ public class ClubController {
     }
 
     @GetMapping("initialisation")
-    public ResponseEntity<String> initialisationClub() {
+    public ResponseEntity<String> initialisationClubFromLeague() {
 
         try {
             ResponseEntity<Map> response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/2021/teams?season=2020");
