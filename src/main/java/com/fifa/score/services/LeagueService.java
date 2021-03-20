@@ -55,11 +55,11 @@ public class LeagueService {
         // for get from actual season
         //  int year = Year.now().getValue() - 1;
 
-        List<League> leagues = new ArrayList<League>();
+        List<League> leagues = new ArrayList<>();
         listeOfLeague.forEach((k, v) -> {
             String url = "https://api.football-data.org/v2/competitions/" + v + "";
 
-            ResponseEntity<Map> response = requestService.connectToFootApi(url);
+            @SuppressWarnings("rawtypes") ResponseEntity<Map> response = requestService.connectToFootApi(url);
             @SuppressWarnings("unchecked")
             Map<String, Object> competition = Objects.requireNonNull(response.getBody());
             // System.out.println(competition);
