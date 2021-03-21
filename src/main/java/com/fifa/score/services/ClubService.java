@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,35 +49,40 @@ public class ClubService {
 
     public ResponseEntity<String> initialisationClubFromLeague() {
         List<Long> competionIds = leagueService.getListOfLeagueIds();
-        System.out.println(competionIds);
+
+        // actual season
+        int year = Year.now().getValue() - 1;
+        ResponseEntity<Map> response = null;
+
         try {
-            ResponseEntity<Map> response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/2021/teams?season=2020");
-
-            //Objects.requireNonNull(response);
-
-            //assert response != null :"tp" ;
-            //System.out.println("test1");
-
-            @SuppressWarnings("unchecked")
-            List<Object> clubApi = (List<Object>) Objects.requireNonNull(response.getBody()).get("teams");
-            //assert clubApi != null;
-            List<Club> clubs = new ArrayList<Club>();
-            League l = new League();
-            l.setId_league(2021);
-            //System.out.println(response);
-            for (int i = 0; i < clubApi.size(); i++) {
-                Club club = new Club();
+            for (Long idLeague : competionIds) {
+                if (idLeague == 2000) {
+                    response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/" + idLeague + "/teams");
+                } else {
+                    response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/" + idLeague + "/teams?season=" + year + "");
+                }
 
                 @SuppressWarnings("unchecked")
-                Map<String, Object> clubFromApi = (Map<String, Object>) clubApi.get(i);
+                List<Object> clubApi = (List<Object>) Objects.requireNonNull(response.getBody()).get("teams");
+                List<Club> clubs = new ArrayList<Club>();
+                League l = new League();
+                l.setId_league(idLeague);
 
-                club.setId_club(Long.parseLong(String.valueOf(clubFromApi.get("id"))));
-                club.setName((String) clubFromApi.get("name"));
-                club.setImage((String) clubFromApi.get("crestUrl"));
-                club.setLeague(l);
-                clubs.add(club);
+                for (Object o : clubApi) {
+                    Club club = new Club();
+
+                    @SuppressWarnings("unchecked")
+                    Map<String, Object> clubFromApi = (Map<String, Object>) o;
+
+                    club.setId_club(Long.parseLong(String.valueOf(clubFromApi.get("id"))));
+                    club.setName((String) clubFromApi.get("name"));
+                    club.setImage((String) clubFromApi.get("crestUrl"));
+                    club.setLeague(l);
+                    clubs.add(club);
+                }
+                addClub(clubs);
             }
-            return addClub(clubs);
+            return ResponseEntity.ok().body("Successfully initialised");
         } catch (Exception e) {
             System.out.println(e.toString());
             return ResponseEntity.badRequest().body("Error");

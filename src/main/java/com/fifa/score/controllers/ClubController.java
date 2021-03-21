@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/score/v1/clubController")
+@RequestMapping("/score/v1/club/")
 public class ClubController {
 
     private final ClubService clubService;
