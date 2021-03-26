@@ -11,7 +11,7 @@ import java.util.List;
 public interface LeagueRepository extends JpaRepository<League, Long> {
 
     @Query("SELECT l.id_league FROM League l")
-    List<Long> getlistofLeagueIds();
+    List<Long> getListOfLeagueIds();
 
 }
 

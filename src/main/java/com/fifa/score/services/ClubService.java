@@ -27,24 +27,8 @@ public class ClubService {
         this.clubRepository = clubRepository;
     }
 
-    public ResponseEntity<String> addClub(Club club) {
-        try {
-            clubRepository.save(club);
-            return ResponseEntity.ok().body("Successfully added");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().body("Error: Can't add this club");
-        }
-    }
-
-    public ResponseEntity<String> addClub(List<Club> clubs) {
-        try {
-            clubRepository.saveAll(clubs);
-            return ResponseEntity.ok().body("Successfully added");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return ResponseEntity.badRequest().body("Error: Can't add this club");
-        }
+    public void addClub(List<Club> clubs) {
+        clubRepository.saveAll(clubs);
     }
 
     public ResponseEntity<String> initialisationClubFromLeague() {
@@ -52,7 +36,7 @@ public class ClubService {
 
         // actual season
         int year = Year.now().getValue() - 1;
-        ResponseEntity<Map> response = null;
+        ResponseEntity<Map> response;
 
         try {
             for (Long idLeague : competionIds) {
@@ -64,7 +48,7 @@ public class ClubService {
 
                 @SuppressWarnings("unchecked")
                 List<Object> clubApi = (List<Object>) Objects.requireNonNull(response.getBody()).get("teams");
-                List<Club> clubs = new ArrayList<Club>();
+                List<Club> clubs = new ArrayList<>();
                 League l = new League();
                 l.setId_league(idLeague);
 

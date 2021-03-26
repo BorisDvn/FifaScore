@@ -33,7 +33,7 @@ public class LeagueService {
     }
 
     public List<Long> getListOfLeagueIds() {
-        return leagueRepository.getlistofLeagueIds();
+        return leagueRepository.getListOfLeagueIds();
     }
 
     public void addLeague(League league) {
