@@ -12,24 +12,21 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_club")
-public class Club {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_country")
+public class Country {
 
     @Id
-    private long id_club;
+    private long id_country;
 
     private String name;
     private String image;
 
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Competition league;
-
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Match match;
+    private Competition worldCup;
 }

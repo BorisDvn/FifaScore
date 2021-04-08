@@ -1,7 +1,7 @@
 package com.fifa.score.controllers;
 
-import com.fifa.score.models.League;
-import com.fifa.score.services.LeagueService;
+import com.fifa.score.models.Competition;
+import com.fifa.score.services.CompetitionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,26 +12,26 @@ import java.util.Map;
 @RestController
 @RequestMapping("/score/v1/league")
 public class LeagueController {
-    private final LeagueService leagueService;
+    private final CompetitionService competitionService;
 
-    public LeagueController(LeagueService leagueService) {
-        this.leagueService = leagueService;
+    public LeagueController(CompetitionService competitionService) {
+        this.competitionService = competitionService;
     }
 
     @GetMapping("initialisation")
     public ResponseEntity<String> initialisationCompetition() {
-        return leagueService.initialisationOfCompetition();
+        return competitionService.initialisationOfCompetition();
     }
 
     @GetMapping("")
-    public List<League> getAllLeagues() {
-        return leagueService.findAll();
+    public List<Competition> getAllLeagues() {
+        return competitionService.findAll();
     }
 
     @PatchMapping("{id}")
     public ResponseEntity<String> update(@Valid @PathVariable("id") long id,
                                          @RequestBody Map<String, Object> league){
-        return leagueService.updateLeague(id, league);
+        return competitionService.updateLeague(id, league);
     }
 
 }

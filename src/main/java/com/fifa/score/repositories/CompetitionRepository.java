@@ -1,6 +1,6 @@
 package com.fifa.score.repositories;
 
-import com.fifa.score.models.League;
+import com.fifa.score.models.Competition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface LeagueRepository extends JpaRepository<League, Long> {
+public interface CompetitionRepository extends JpaRepository<Competition, Long> {
 
-    @Query("SELECT l.id_league FROM League l")
-    List<Long> getListOfLeagueIds();
+    @Query("SELECT c.id_competition FROM Competition c")
+    List<Long> getListOfCompetitionIds();
 
 }
 

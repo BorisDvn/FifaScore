@@ -1,7 +1,7 @@
 package com.fifa.score.services;
 
 import com.fifa.score.models.Club;
-import com.fifa.score.models.League;
+import com.fifa.score.models.Competition;
 import com.fifa.score.repositories.ClubRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +17,13 @@ import java.util.Objects;
 public class ClubService {
     private final ClubRepository clubRepository;
 
-    @Autowired
-    private LeagueService leagueService;
+    private final CompetitionService competitionService;
+    private final RequestService requestService;
 
-    @Autowired
-    private RequestService requestService;
-
-    public ClubService(ClubRepository clubRepository) {
+    public ClubService(ClubRepository clubRepository, CompetitionService competitionService, RequestService requestService) {
         this.clubRepository = clubRepository;
+        this.competitionService = competitionService;
+        this.requestService = requestService;
     }
 
     public void addClub(List<Club> clubs) {
@@ -32,25 +31,24 @@ public class ClubService {
     }
 
     public ResponseEntity<String> initialisationClubFromLeague() {
-        List<Long> competionIds = leagueService.getListOfLeagueIds();
+        List<Long> competionIds = competitionService.ListOfCompetitionIds();
 
         // actual season
         int year = Year.now().getValue() - 1;
-        ResponseEntity<Map> response;
+        ResponseEntity<Map> response=null;
 
         try {
-            for (Long idLeague : competionIds) {
-                if (idLeague == 2000) {
-                    response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/" + idLeague + "/teams");
-                } else {
-                    response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/" + idLeague + "/teams?season=" + year + "");
+            for (Long competition_id : competionIds) {
+                if (competition_id != 2000) {
+                    response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/" + competition_id + "/teams?season=" + year + "");
                 }
 
+                assert response != null;
                 @SuppressWarnings("unchecked")
                 List<Object> clubApi = (List<Object>) Objects.requireNonNull(response.getBody()).get("teams");
                 List<Club> clubs = new ArrayList<>();
-                League l = new League();
-                l.setId_league(idLeague);
+                Competition competition = new Competition();
+                competition.setId_competition(competition_id);
 
                 for (Object o : clubApi) {
                     Club club = new Club();
@@ -61,7 +59,7 @@ public class ClubService {
                     club.setId_club(Long.parseLong(String.valueOf(clubFromApi.get("id"))));
                     club.setName((String) clubFromApi.get("name"));
                     club.setImage((String) clubFromApi.get("crestUrl"));
-                    club.setLeague(l);
+                    club.setLeague(competition);
                     clubs.add(club);
                 }
                 addClub(clubs);

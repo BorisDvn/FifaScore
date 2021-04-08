@@ -14,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_league")
-public class League {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_competition")
+public class Competition {
     @Id
-    private long id_league;
+    private long id_competition;
 
     private String name;
     private String image;
@@ -25,4 +25,8 @@ public class League {
     @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "league", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Club> clubs;
+
+    @JsonIdentityReference(alwaysAsId = true)
+    @OneToMany(mappedBy = "worldCup", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Country> countries;
 }
