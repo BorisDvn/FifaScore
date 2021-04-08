@@ -11,10 +11,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/score/v1/league")
-public class LeagueController {
+public class CompetitionController {
     private final CompetitionService competitionService;
 
-    public LeagueController(CompetitionService competitionService) {
+    public CompetitionController(CompetitionService competitionService) {
         this.competitionService = competitionService;
     }
 
