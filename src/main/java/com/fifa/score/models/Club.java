@@ -29,7 +29,7 @@ public class Club {
     @ManyToOne(fetch = FetchType.LAZY)
     private Competition league;
 
-    @JsonIdentityReference(alwaysAsId = true)
+    /*@JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Match match;
+    private Match match;*/
 }

@@ -24,11 +24,11 @@ public class CompetitionService {
         this.requestService = requestService;
     }
 
-    public Competition getCompetition(Long id) {
+    public Competition findCompetition(Long id) {
         return competitionRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public List<Competition> findAll() {
+    public List<Competition> findAllCompetition() {
         return competitionRepository.findAll();
     }
 
@@ -78,15 +78,15 @@ public class CompetitionService {
         return ResponseEntity.ok().body("Successfully initialised");
     }
 
-    public ResponseEntity<String> updateLeague(long id, Map<String, Object> competition) {
-        Competition competition_temp = getCompetition(id);
+    public ResponseEntity<String> updateCompetition(long id, Map<String, Object> competition) {
+        Competition competition_temp = findCompetition(id);
 
         competition.forEach((element, value) -> {
             switch (element) {
                 case "name":
                     competition_temp.setName((String) value);
                     break;
-                case "description":
+                case "image":
                     competition_temp.setImage((String) value);
                     break;
             }

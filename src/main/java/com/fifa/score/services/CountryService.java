@@ -6,6 +6,7 @@ import com.fifa.score.repositories.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@Service
 public class CountryService {
 
     @Autowired
@@ -21,11 +23,11 @@ public class CountryService {
     @Autowired
     RequestService requestService;
 
-    public Country getCountry(Long id) {
+    public Country findCountry(Long id) {
         return countryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public List<Country> getAllCountry() {
+    public List<Country> findAllCountry() {
         return countryRepository.findAll();
     }
 
@@ -65,7 +67,7 @@ public class CountryService {
 
             return ResponseEntity.ok().body("Successfully initialised");
         } catch (Exception e) {
-            System.out.println(e.toString());
+            // System.out.println(e.toString());
             return ResponseEntity.badRequest().body("Error");
         }
     }

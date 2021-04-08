@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/score/v1/league")
+@RequestMapping("/score/v1/competition")
 public class CompetitionController {
     private final CompetitionService competitionService;
 
@@ -23,15 +23,15 @@ public class CompetitionController {
         return competitionService.initialisationOfCompetition();
     }
 
-    @GetMapping("")
-    public List<Competition> getAllLeagues() {
-        return competitionService.findAll();
+    @GetMapping("competitions")
+    public List<Competition> getAllCompetition() {
+        return competitionService.findAllCompetition();
     }
 
     @PatchMapping("{id}")
     public ResponseEntity<String> update(@Valid @PathVariable("id") long id,
-                                         @RequestBody Map<String, Object> league){
-        return competitionService.updateLeague(id, league);
+                                         @RequestBody Map<String, Object> competition) {
+        return competitionService.updateCompetition(id, competition);
     }
 
 }

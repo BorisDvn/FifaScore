@@ -1,4 +1,4 @@
-package com.fifa.score.models;
+/*package com.fifa.score.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -33,4 +33,4 @@ public class Match {
     //Map<Integer,String> map=new HashMap<Integer,String>();
     private List<Club> club1;
 
-}
+}*/

@@ -1,7 +1,6 @@
 package com.fifa.score.controllers;
 
 import com.fifa.score.services.ClubService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,4 +20,5 @@ public class ClubController {
     public ResponseEntity<String> initialisationClubFromLeague() {
         return clubService.initialisationClubFromLeague();
     }
+
 }

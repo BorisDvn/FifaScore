@@ -3,7 +3,6 @@ package com.fifa.score.services;
 import com.fifa.score.models.Club;
 import com.fifa.score.models.Competition;
 import com.fifa.score.repositories.ClubRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -31,20 +30,19 @@ public class ClubService {
     }
 
     public ResponseEntity<String> initialisationClubFromLeague() {
-        List<Long> competionIds = competitionService.ListOfCompetitionIds();
+        List<Long> competitionIds = competitionService.ListOfCompetitionIds();
+        // remove world cup
+        competitionIds.remove(Long.valueOf(2000));
 
         // actual season
         int year = Year.now().getValue() - 1;
-        ResponseEntity<Map> response=null;
+        ResponseEntity<Map> response;
 
         try {
-            for (Long competition_id : competionIds) {
-                if (competition_id != 2000) {
-                    response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/" + competition_id + "/teams?season=" + year + "");
-                }
+            for (Long competition_id : competitionIds) {
+                response = requestService.connectToFootApi("https://api.football-data.org/v2/competitions/" + competition_id + "/teams?season=" + year + "");
 
-                assert response != null;
-                @SuppressWarnings("unchecked")
+                @SuppressWarnings({"unchecked"})
                 List<Object> clubApi = (List<Object>) Objects.requireNonNull(response.getBody()).get("teams");
                 List<Club> clubs = new ArrayList<>();
                 Competition competition = new Competition();
@@ -66,7 +64,7 @@ public class ClubService {
             }
             return ResponseEntity.ok().body("Successfully initialised");
         } catch (Exception e) {
-            System.out.println(e.toString());
+            //System.out.println(e.toString());
             return ResponseEntity.badRequest().body("Error");
         }
     }
