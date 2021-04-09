@@ -8,25 +8,32 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_group")
-public class Group {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id_team")
+public class Team {
 
     @Id
-    private long id_group;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id_team;
+
+    @Lob
+    private String description;
     private String name;
+    private LocalDate creation_date;
+
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne(fetch = FetchType.LAZY)
     private User owner;
 
     @ManyToMany
-    Set<User> members;
+    List<User> members;
 
     @ManyToMany
-    Set<User> administrators;
+    List<User> administrators;
 }

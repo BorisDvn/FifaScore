@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -30,12 +29,12 @@ public class User {
 
     @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Group> own_groups;
+    private List<Team> own_teams;
 
     @ManyToMany
-    Set<Group> groups;
+    List<Team> teams;
 
     @ManyToMany
-    Set<User> admin_for_groups;
+    List<User> admin_for_team;
 
 }

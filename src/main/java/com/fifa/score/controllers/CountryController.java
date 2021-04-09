@@ -1,7 +1,6 @@
 package com.fifa.score.controllers;
 
 import com.fifa.score.models.Country;
-import com.fifa.score.services.ClubService;
 import com.fifa.score.services.CountryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
