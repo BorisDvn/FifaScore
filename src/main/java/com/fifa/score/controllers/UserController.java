@@ -1,26 +1,38 @@
 package com.fifa.score.controllers;
 
+import com.fifa.score.models.Team;
 import com.fifa.score.models.User;
+import com.fifa.score.services.TeamService;
 import com.fifa.score.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/score/v1/user/")
 public class UserController {
 
     private final UserService userService;
+    private final TeamService teamService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService,TeamService teamService) {
         this.userService = userService;
+        this.teamService = teamService;
     }
 
     @PostMapping("addUser")
-    public ResponseEntity<String> addUser(@RequestBody User user){
-       return userService.addUser(user);
+    public ResponseEntity<String> addUser(@RequestBody User user) {
+        return userService.addUser(user);
+    }
+
+    @PostMapping("createTeam")
+    public ResponseEntity<String> createTeam(@RequestBody Team team) {
+        return userService.createTeam(team);
+    }
+
+    // mais il doit seulement pouvoir supprimer son Team
+    // du coup il faut une verification
+    @DeleteMapping("deleteTeam/{id}")
+    public ResponseEntity<String> deleteTeam(@PathVariable long id){
+        return userService.deleteTeam(id);
     }
 }
