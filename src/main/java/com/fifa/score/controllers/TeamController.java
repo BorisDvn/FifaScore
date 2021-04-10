@@ -18,9 +18,9 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @PostMapping("addTeam")
-    public ResponseEntity<String> addGroup(@RequestBody Team team) {
+    /*@PostMapping("addTeam")
+    public ResponseEntity<String> addTeam(@RequestBody Team team) {
         teamService.addTeam(team);
         return ResponseEntity.ok().body("Successfully added");
-    }
+    }*/
 }
