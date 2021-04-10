@@ -55,14 +55,50 @@ public class UserService {
     }
 
     public ResponseEntity<String> addMemberInTeam(long id_user, long id_team) {
+        // get the authenticated user and check if he is admin or owner
+
+        // User to add
         User user = findUser(id_user);
         Team team = teamService.findTeam(id_team);
-        String added = teamService.addMember(user, team);
-        if (added.equals("Successfully added")) {
-            return ResponseEntity.ok().body("Member successfully added");
+
+        // check with temp 1
+        if (isAdminOrOwner(team)) {
+            String added = teamService.addMember(user, team);
+            if (added.equals("Successfully added")) {
+                return ResponseEntity.ok().body("Member successfully added");
+            } else {
+                return ResponseEntity.ok().body("Member is member is already in Team");
+            }
         } else {
-            return ResponseEntity.ok().body("Member is member is already in Team");
+            return ResponseEntity.ok().body("You are not admin");
         }
+    }
+
+    public ResponseEntity<String> addAdminInTeam(long id_user, long id_team) {
+        // get the authenticated user and check if he is admin or owner
+
+        // User to set admin
+        User user = findUser(id_user);
+        Team team = teamService.findTeam(id_team);
+
+        // check with temp 1
+        if (isAdminOrOwner(team)) {
+            String added = teamService.addAdmin(user, team);
+            if (added.equals("Successfully added")) {
+                return ResponseEntity.ok().body("Member successfully added");
+            } else {
+                return ResponseEntity.ok().body("Member is member is already in Team");
+            }
+        } else {
+            return ResponseEntity.ok().body("You are not admin");
+        }
+    }
+
+    public boolean isAdminOrOwner(Team team) {
+        // get the authenticated
+        // check with temp 1
+        User user = findUser(1L);
+        return user.getOwn_teams().contains(team) || user.getAdmin_for_team().contains(team);
     }
 
 

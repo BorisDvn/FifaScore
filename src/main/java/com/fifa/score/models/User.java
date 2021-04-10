@@ -31,10 +31,12 @@ public class User {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Team> own_teams;
 
+    // Team wo he is member
     @ManyToMany
     List<Team> teams;
 
+    // Team wo he is admin
     @ManyToMany
-    List<User> admin_for_team;
+    List<Team> admin_for_team;
 
 }

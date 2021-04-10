@@ -50,8 +50,20 @@ public class TeamService {
         } else {
             return null;
         }
-
     }
+
+    public String addAdmin(User user, Team team) {
+        // verify is member is already in Team
+        if (team.getMembers().contains(user) && !team.getAdministrators().contains(user)) {
+            team.getAdministrators().add(user);
+            teamRepository.save(team);
+            return "Successfully added";
+        } else {
+            return null;
+        }
+    }
+
+
 
 
 }
