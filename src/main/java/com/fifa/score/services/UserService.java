@@ -28,7 +28,7 @@ public class UserService {
         return ResponseEntity.ok().body("Successfully added");
     }
 
-    public ResponseEntity<String> deleteUser(Long id) {
+    public ResponseEntity<String> deleteUser(long id) {
         User user = findUser(id);
         userRepository.delete(user);
         return ResponseEntity.ok().body("Successfully deleted");
@@ -52,7 +52,17 @@ public class UserService {
         } else {
             return ResponseEntity.ok().body("You are not the owner!");
         }
+    }
 
+    public ResponseEntity<String> addMemberInTeam(long id_user, long id_team) {
+        User user = findUser(id_user);
+        Team team = teamService.findTeam(id_team);
+        String added = teamService.addMember(user, team);
+        if (added.equals("Successfully added")) {
+            return ResponseEntity.ok().body("Member successfully added");
+        } else {
+            return ResponseEntity.ok().body("Member is member is already in Team");
+        }
     }
 
 

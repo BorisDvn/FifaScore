@@ -3,10 +3,9 @@ package com.fifa.score.controllers;
 import com.fifa.score.models.Team;
 import com.fifa.score.services.TeamService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/score/v1/team/")
@@ -16,6 +15,11 @@ public class TeamController {
 
     public TeamController(TeamService teamService) {
         this.teamService = teamService;
+    }
+
+    @GetMapping("teams")
+    public List<Team> getAllTeam(){
+        return teamService.findAllTeam();
     }
 
     /*@PostMapping("addTeam")
