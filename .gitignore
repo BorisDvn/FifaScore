@@ -35,3 +35,6 @@ build/
 
 ### Diagramm ###
 /VPProjects/*.vpp.*
+*.lck
+*.bak_000f
+*.bak_001d
