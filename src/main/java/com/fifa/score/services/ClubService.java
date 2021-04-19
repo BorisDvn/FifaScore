@@ -25,6 +25,10 @@ public class ClubService {
         this.requestService = requestService;
     }
 
+    public List<Club> findAllClub(){
+        return clubRepository.findAll();
+    }
+
     public void addClub(List<Club> clubs) {
         clubRepository.saveAll(clubs);
     }

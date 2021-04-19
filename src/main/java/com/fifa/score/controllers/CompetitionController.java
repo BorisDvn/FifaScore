@@ -29,7 +29,7 @@ public class CompetitionController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<String> update(@Valid @PathVariable("id") long id,
+    public ResponseEntity<String> updateCompetition(@Valid @PathVariable("id") long id,
                                          @RequestBody Map<String, Object> competition) {
         return competitionService.updateCompetition(id, competition);
     }
