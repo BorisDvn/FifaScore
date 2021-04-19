@@ -3,11 +3,8 @@ package com.fifa.score.services;
 import com.fifa.score.models.Competition;
 import com.fifa.score.models.Country;
 import com.fifa.score.repositories.CountryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,23 +14,26 @@ import java.util.Objects;
 @Service
 public class CountryService {
 
-    @Autowired
-    CountryRepository countryRepository;
+    final CountryRepository countryRepository;
 
-    @Autowired
-    RequestService requestService;
+    final RequestService requestService;
 
-    public Country findCountry(Long id) {
-        return countryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    public CountryService(CountryRepository countryRepository, RequestService requestService) {
+        this.countryRepository = countryRepository;
+        this.requestService = requestService;
     }
+
+   /* public Country findCountry(Long id) {
+        return countryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }*/
 
     public List<Country> findAllCountry() {
         return countryRepository.findAll();
     }
 
-    public void addCountry(Country country) {
+    /*public void addCountry(Country country) {
         countryRepository.save(country);
-    }
+    }*/
 
     public void addCountry(List<Country> countries) {
         countryRepository.saveAll(countries);
