@@ -30,7 +30,7 @@ public class ClubService {
     }
 
     public ResponseEntity<String> initialisationClubFromLeague() {
-        List<Long> competitionIds = competitionService.ListOfCompetitionIds();
+        List<Long> competitionIds = competitionService.listOfCompetitionIds();
         // remove world cup
         competitionIds.remove(Long.valueOf(2000));
 

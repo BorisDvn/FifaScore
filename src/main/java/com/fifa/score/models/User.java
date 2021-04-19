@@ -32,11 +32,11 @@ public class User {
     private List<Team> own_teams;
 
     // Team wo he is member
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     List<Team> teams;
 
     // Team wo he is admin
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     List<Team> admin_for_team;
 
 }

@@ -32,7 +32,7 @@ public class CompetitionService {
         return competitionRepository.findAll();
     }
 
-    public List<Long> ListOfCompetitionIds() {
+    public List<Long> listOfCompetitionIds() {
         return competitionRepository.getListOfCompetitionIds();
     }
 
