@@ -44,8 +44,11 @@ public class UserService {
     }
 
     public ResponseEntity<String> deleteTeam(long id_team) {
-        // verify if user is the owner
-        // get the authenticated user
+        /*
+         verify if user is the owner // or may be also admin?
+         use isAdminOrOwner
+         get the authenticated user
+        */
         Team team = teamService.findTeam(id_team);
         if (team.getOwner().getId_user() == 1L) { // temporary use temp user :-)
             return teamService.deleteTeam(id_team);
