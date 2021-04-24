@@ -42,13 +42,17 @@ public class UserService {
         // temporary use temp user :-)
         User user_temp = findUser(1L);
         team.setOwner(user_temp);
-        team.setMembers(Collections.singletonList(user_temp));
-        team.setAdministrators(Collections.singletonList(user_temp));
-        teamService.addTeam(team);
+        //team.setMembers(Collections.singletonList(user_temp));
+        //team.setAdministrators(Collections.singletonList(user_temp));
+        //System.out.println(team);
+        Team team_help =teamService.addTeamReturnTeam(team);
+
         // update user
-        user_temp.setAdmin_for_team(Collections.singletonList(team));
-        user_temp.setTeams(Collections.singletonList(team));
-        userRepository.save(user_temp);
+        //System.out.println("w");
+        //System.out.println(team_help);
+        //user_temp.setAdmin_for_team(Collections.singletonList(team_help));
+        //user_temp.setTeams(Collections.singletonList(team_help));
+        //userRepository.save(user_temp);
         return ResponseEntity.ok().body("Successfully created");
     }
 
@@ -66,7 +70,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<String> addMemberInTeam(long id_user, long id_team) {
+    /*public ResponseEntity<String> addMemberInTeam(long id_user, long id_team) {
         // get the authenticated user and check if he is admin or owner
 
         // User to add
@@ -84,9 +88,9 @@ public class UserService {
         } else {
             return ResponseEntity.ok().body("You are not admin");
         }
-    }
+    }*/
 
-    public ResponseEntity<String> addAdminInTeam(long id_user, long id_team) {
+    /*public ResponseEntity<String> addAdminInTeam(long id_user, long id_team) {
         // get the authenticated user and check if he is admin or owner
 
         // User to set admin
@@ -104,14 +108,14 @@ public class UserService {
         } else {
             return ResponseEntity.ok().body("You are not admin");
         }
-    }
+    }*/
 
-    public boolean isAdminOrOwner(Team team) {
+    /*public boolean isAdminOrOwner(Team team) {
         // get the authenticated
         // check with temp 1
         User user = findUser(1L);
         return user.getOwn_teams().contains(team) || user.getAdmin_for_team().contains(team);
-    }
+    }*/
 
 
 }

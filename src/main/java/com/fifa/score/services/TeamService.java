@@ -35,13 +35,19 @@ public class TeamService {
         // return ResponseEntity.ok().body("Successfully added");
     }
 
+    public Team addTeamReturnTeam(Team team) {
+        team.setCreation_date(LocalDate.now());
+        return teamRepository.save(team);
+        // return ResponseEntity.ok().body("Successfully added");
+    }
+
     public ResponseEntity<String> deleteTeam(long id) {
         Team team = findTeam(id);
         teamRepository.delete(team);
         return ResponseEntity.ok().body("Successfully deleted");
     }
 
-    public String addMember(User user, Team team) {
+    /*public String addMember(User user, Team team) {
         // verify is member is already in Team
         if (!team.getMembers().contains(user)) {
             team.getMembers().add(user);
@@ -50,9 +56,9 @@ public class TeamService {
         } else {
             return null;
         }
-    }
+    }*/
 
-    public String addAdmin(User user, Team team) {
+    /*public String addAdmin(User user, Team team) {
         // verify is member is already in Team
         if (team.getMembers().contains(user) && !team.getAdministrators().contains(user)) {
             team.getAdministrators().add(user);
@@ -61,7 +67,7 @@ public class TeamService {
         } else {
             return null;
         }
-    }
+    }*/
 
 
 

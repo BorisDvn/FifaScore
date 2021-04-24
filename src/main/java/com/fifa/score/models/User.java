@@ -32,11 +32,13 @@ public class User {
     private List<Team> own_teams;
 
     // Team wo he is member
-    @ManyToMany(fetch = FetchType.LAZY)
+   @JsonIdentityReference(alwaysAsId = true)
+    @ManyToMany(targetEntity = Team.class,cascade = CascadeType.ALL )
     List<Team> teams;
 
-    // Team wo he is admin
-    @ManyToMany(fetch = FetchType.LAZY)
-    List<Team> admin_for_team;
+     /*// Team wo he is admin
+    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToMany(targetEntity = Team.class,cascade = CascadeType.ALL )
+    List<Team> admin_for_team;*/
 
 }

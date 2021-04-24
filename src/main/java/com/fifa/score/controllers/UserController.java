@@ -19,6 +19,12 @@ public class UserController {
         this.teamService = teamService;
     }
 
+    @GetMapping("{id}")
+    public User getUser(@PathVariable long id){
+        return userService.findUser(id);
+    }
+
+
     @PostMapping("addUser")
     public ResponseEntity<String> addUser(@RequestBody User user) {
         return userService.addUser(user);
@@ -36,8 +42,8 @@ public class UserController {
         return userService.deleteTeam(id);
     }
 
-    @PostMapping("addMember")
+    /*@PostMapping("addMember")
     public ResponseEntity<String> addMemberInTeam(@RequestParam("user") long id_user, @RequestParam("team") long id_team) {
         return userService.addMemberInTeam(id_user, id_team);
-    }
+    }*/
 }

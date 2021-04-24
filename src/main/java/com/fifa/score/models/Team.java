@@ -31,9 +31,12 @@ public class Team {
     @ManyToOne(fetch = FetchType.LAZY)
     private User owner;
 
-    @ManyToMany
+
+    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToMany(targetEntity = User.class, mappedBy = "teams", cascade = CascadeType.ALL)
     List<User> members;
 
-    @ManyToMany
-    List<User> administrators;
+    /*@JsonIdentityReference(alwaysAsId = true)
+    @ManyToMany(targetEntity = User.class, mappedBy = "admin_for_team", cascade = CascadeType.ALL)
+    List<User> administrators;*/
 }
