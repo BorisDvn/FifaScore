@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -42,10 +42,23 @@ public class UserService {
         // temporary use temp user :-)
         User user_temp = findUser(1L);
         team.setOwner(user_temp);
+        // save new team
+        Team team_toSave = teamService.addTeamReturnTeam(team);
+
+        // update user _ members
+       List<Team> teams = user_temp.getTeams();
+       teams.add(team_toSave);
+       user_temp.setTeams(teams);
+       userRepository.save(user_temp);
+
+
+
+
+
         //team.setMembers(Collections.singletonList(user_temp));
         //team.setAdministrators(Collections.singletonList(user_temp));
         //System.out.println(team);
-        Team team_help =teamService.addTeamReturnTeam(team);
+
 
         // update user
         //System.out.println("w");

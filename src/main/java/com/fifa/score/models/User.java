@@ -27,13 +27,14 @@ public class User {
     // String password;
     // String rolle;
 
+
     @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Team> own_teams;
 
     // Team wo he is member
-   @JsonIdentityReference(alwaysAsId = true)
-    @ManyToMany(targetEntity = Team.class,cascade = CascadeType.ALL )
+    @JsonIdentityReference(alwaysAsId = true)
+    @ManyToMany(targetEntity = Team.class, cascade = CascadeType.ALL)
     List<Team> teams;
 
      /*// Team wo he is admin
