@@ -37,9 +37,9 @@ public class User {
     @ManyToMany(targetEntity = Team.class, cascade = CascadeType.ALL)
     List<Team> teams;
 
-     /*// Team wo he is admin
+    // Team wo he is admin
     @JsonIdentityReference(alwaysAsId = true)
-    @ManyToMany(targetEntity = Team.class,cascade = CascadeType.ALL )
-    List<Team> admin_for_team;*/
+    @ManyToMany(targetEntity = Team.class, cascade = CascadeType.ALL )
+    List<Team> admin_for_team;
 
 }

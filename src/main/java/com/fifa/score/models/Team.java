@@ -32,10 +32,10 @@ public class Team {
     private User owner;
 
     @JsonIdentityReference(alwaysAsId = true)
-    @ManyToMany(targetEntity = User.class, mappedBy = "teams", cascade = CascadeType.ALL)
+    @ManyToMany(targetEntity = User.class, mappedBy = "teams", cascade = CascadeType.ALL)//,fetch = FetchType.LAZY)
     List<User> members;
 
-    /*@JsonIdentityReference(alwaysAsId = true)
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToMany(targetEntity = User.class, mappedBy = "admin_for_team", cascade = CascadeType.ALL)
-    List<User> administrators;*/
+    List<User> administrators;
 }

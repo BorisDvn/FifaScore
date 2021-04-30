@@ -3,6 +3,8 @@ package com.fifa.score.services;
 import com.fifa.score.models.Team;
 import com.fifa.score.models.User;
 import com.fifa.score.repositories.TeamRepository;
+import com.fifa.score.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,12 @@ import java.util.List;
 public class TeamService {
 
     private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
 
 
-    public TeamService(TeamRepository teamRepository) {
+    public TeamService(TeamRepository teamRepository, UserRepository userRepository) {
         this.teamRepository = teamRepository;
+        this.userRepository = userRepository;
     }
 
     public Team findTeam(long id) {
@@ -47,27 +51,35 @@ public class TeamService {
         return ResponseEntity.ok().body("Successfully deleted");
     }
 
-    /*public String addMember(User user, Team team) {
-        // verify is member is already in Team
-        if (!team.getMembers().contains(user)) {
-            team.getMembers().add(user);
-            teamRepository.save(team);
-            return "Successfully added";
-        } else {
-            return null;
-        }
-    }*/
+   public String addMember(User user, Team team) {
 
-    /*public String addAdmin(User user, Team team) {
-        // verify is member is already in Team
-        if (team.getMembers().contains(user) && !team.getAdministrators().contains(user)) {
-            team.getAdministrators().add(user);
-            teamRepository.save(team);
+        // add standard c est pas mieux d envoyer les ids simplement?
+
+        // verify is user is already in Team
+        if (!user.getTeams().contains(team)) {
+
+            user.getTeams().add(team);
+            userRepository.save(user);
             return "Successfully added";
         } else {
-            return null;
+            return "user is already in Team";
         }
-    }*/
+   }
+
+    public String addAdmin(User user, Team team) {
+
+        // add standard c est pas mieux d envoyer les ids simplement?
+
+        // verify is member is already in Team
+        if (!user.getAdmin_for_team().contains(team)) {
+
+            user.getAdmin_for_team().add(team);
+            userRepository.save(user);
+            return "Successfully added";
+        } else {
+            return "user is already admin";
+        }
+    }
 
 
 

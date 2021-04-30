@@ -45,27 +45,12 @@ public class UserService {
         // save new team
         Team team_toSave = teamService.addTeamReturnTeam(team);
 
-        // update user _ members
-       List<Team> teams = user_temp.getTeams();
-       teams.add(team_toSave);
-       user_temp.setTeams(teams);
-       userRepository.save(user_temp);
+        // update members (owner is also a member)
+        teamService.addMember(user_temp,team_toSave);
 
+        // update admin (owner is also a member)
+        teamService.addAdmin(user_temp,team_toSave);
 
-
-
-
-        //team.setMembers(Collections.singletonList(user_temp));
-        //team.setAdministrators(Collections.singletonList(user_temp));
-        //System.out.println(team);
-
-
-        // update user
-        //System.out.println("w");
-        //System.out.println(team_help);
-        //user_temp.setAdmin_for_team(Collections.singletonList(team_help));
-        //user_temp.setTeams(Collections.singletonList(team_help));
-        //userRepository.save(user_temp);
         return ResponseEntity.ok().body("Successfully created");
     }
 
