@@ -28,6 +28,7 @@ public class UserService {
         return ResponseEntity.ok().body("Successfully added");
     }
 
+    // voir dans quelles mesures on peut supprimer un compte
     public ResponseEntity<String> deleteUser(long id) {
         User user = findUser(id);
         userRepository.delete(user);
@@ -91,7 +92,13 @@ public class UserService {
         }
     }
 
-    //public leaveTeam
+    public ResponseEntity<String> leaveTeam(long id_team){
+        // get the authenticated
+        // check with temp 1
+        User user = findUser(3L);
+        Team team = teamService.findTeam(id_team);
+        return ResponseEntity.ok().body(teamService.deleteMember(user, team));
+    }
 
     public ResponseEntity<String> addAdminInTeam(long id_user, long id_team) {
         // get the authenticated user and check if he is admin or owner
@@ -106,7 +113,7 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<String> deleteAdmmin(long id_user, long id_team) {
+    public ResponseEntity<String> deleteAdmin(long id_user, long id_team) {
         // get the authenticated user and check if he is admin or owner
         // User to delete
         User user = findUser(id_user);
