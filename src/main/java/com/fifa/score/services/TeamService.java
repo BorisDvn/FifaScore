@@ -63,9 +63,25 @@ public class TeamService {
             userRepository.save(user);
             return "Successfully added";
         } else {
-            return "user is already admin";
+            return "Member is already admin";
         }
     }
+
+    public String deleteMember(User user, Team team) {
+        // add standard c est pas mieux d envoyer les ids simplement?
+        // verify is member is already in Team
+        if (user.getAdmin_for_team().contains(team)) {
+            user.getAdmin_for_team().remove(team);
+            userRepository.save(user);
+            return "Successfully removed";
+        } else {
+            return "Member can not be removed";
+        }
+    }
+
+    // remove admin recht
+
+
 
 
 }

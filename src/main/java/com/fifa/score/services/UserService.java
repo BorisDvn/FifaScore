@@ -78,6 +78,21 @@ public class UserService {
         }
     }
 
+    public ResponseEntity<String> deleteMember(long id_user, long id_team) {
+        // get the authenticated user and check if he is admin or owner
+        // User to delete
+        User user = findUser(id_user);
+        Team team = teamService.findTeam(id_team);
+        // check with temp 1
+        if (isAdmin(team)) {
+            return ResponseEntity.ok().body(teamService.deleteMember(user, team));
+        } else {
+            return ResponseEntity.ok().body("You are not admin");
+        }
+    }
+
+    //public leaveTeam
+
     public ResponseEntity<String> addAdminInTeam(long id_user, long id_team) {
         // get the authenticated user and check if he is admin or owner
         // User to add
