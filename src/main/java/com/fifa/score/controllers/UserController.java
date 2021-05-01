@@ -54,4 +54,9 @@ public class UserController {
     public ResponseEntity<String> SetAdminTeam(@RequestParam("user") long id_user, @RequestParam("team") long id_team) {
         return userService.addAdminInTeam(id_user, id_team);
     }
+
+    @GetMapping("deleteAdmin")
+    public ResponseEntity<String> deleteAdmin(@RequestParam("user") long id_user, @RequestParam("team") long id_team) {
+        return userService.deleteAdmmin(id_user, id_team);
+    }
 }

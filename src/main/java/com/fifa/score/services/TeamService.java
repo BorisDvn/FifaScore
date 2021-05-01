@@ -5,7 +5,6 @@ import com.fifa.score.models.User;
 import com.fifa.score.repositories.TeamRepository;
 import com.fifa.score.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -55,18 +54,6 @@ public class TeamService {
         }
     }
 
-    public String addAdmin(User user, Team team) {
-        // add standard c est pas mieux d envoyer les ids simplement?
-        // verify is member is already in Team
-        if (!user.getAdmin_for_team().contains(team)) {
-            user.getAdmin_for_team().add(team);
-            userRepository.save(user);
-            return "Successfully added";
-        } else {
-            return "Member is already admin";
-        }
-    }
-
     public String deleteMember(User user, Team team) {
         // add standard c est pas mieux d envoyer les ids simplement?
         // verify is member is already in Team
@@ -79,9 +66,33 @@ public class TeamService {
         }
     }
 
+    public String addAdmin(User user, Team team) {
+        // add standard c est pas mieux d envoyer les ids simplement?
+        // verify is member is already in Team
+        if (!user.getTeams().contains(team)) {
+            return "User is not member";
+        } else if (!user.getAdmin_for_team().contains(team)) {
+            user.getAdmin_for_team().add(team);
+            userRepository.save(user);
+            return "Successfully added";
+        } else {
+            return "Member is already admin";
+        }
+    }
+
+
     // remove admin recht
-
-
+    public String deleteAdmin(User user, Team team) {
+        // add standard c est pas mieux d envoyer les ids simplement?
+        // verify is member is already in Team
+        if (user.getAdmin_for_team().contains(team)) {
+            user.getAdmin_for_team().remove(team);
+            userRepository.save(user);
+            return "Successfully removed";
+        } else {
+            return "Admin can not be removed";
+        }
+    }
 
 
 }
