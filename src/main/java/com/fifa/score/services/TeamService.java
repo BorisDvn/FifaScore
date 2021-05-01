@@ -62,7 +62,7 @@ public class TeamService {
             userRepository.save(user);
             return "Successfully added";
         } else {
-            return "user is already in Team";
+            return "Member is already in Team";
         }
    }
 

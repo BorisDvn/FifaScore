@@ -12,11 +12,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final TeamService teamService;
 
-    public UserController(UserService userService, TeamService teamService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.teamService = teamService;
     }
 
     @GetMapping("{id}")
@@ -37,13 +35,13 @@ public class UserController {
 
     // mais il doit seulement pouvoir supprimer son Team
     // du coup il faut une verification
-    @DeleteMapping("deleteTeam/{id}")
+    /*@DeleteMapping("deleteTeam/{id}")
     public ResponseEntity<String> deleteTeam(@PathVariable long id) {
         return userService.deleteTeam(id);
-    }
+    }*/
 
-    /*@PostMapping("addMember")
+    @PostMapping("addMember")
     public ResponseEntity<String> addMemberInTeam(@RequestParam("user") long id_user, @RequestParam("team") long id_team) {
         return userService.addMemberInTeam(id_user, id_team);
-    }*/
+    }
 }
