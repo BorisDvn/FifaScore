@@ -70,8 +70,8 @@ public class TeamService {
     public String deleteMember(User user, Team team) {
         // add standard c est pas mieux d envoyer les ids simplement?
         // verify is member is already in Team
-        if (user.getAdmin_for_team().contains(team)) {
-            user.getAdmin_for_team().remove(team);
+        if (user.getTeams().contains(team)) {
+            user.getTeams().remove(team);
             userRepository.save(user);
             return "Successfully removed";
         } else {
