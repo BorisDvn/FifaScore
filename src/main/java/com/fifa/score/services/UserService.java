@@ -8,9 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.List;
-
 @Service
 public class UserService {
 
@@ -43,13 +40,13 @@ public class UserService {
         User user_temp = findUser(1L);
         team.setOwner(user_temp);
         // save new team
-        Team team_toSave = teamService.addTeamReturnTeam(team);
+        Team team_toSave = teamService.addTeam(team);
 
         // update members (owner is also a member)
-        teamService.addMember(user_temp,team_toSave);
+        teamService.addMember(user_temp, team_toSave);
 
         // update admin (owner is also a member)
-        teamService.addAdmin(user_temp,team_toSave);
+        teamService.addAdmin(user_temp, team_toSave);
 
         return ResponseEntity.ok().body("Successfully created");
     }
@@ -70,38 +67,29 @@ public class UserService {
 
     public ResponseEntity<String> addMemberInTeam(long id_user, long id_team) {
         // get the authenticated user and check if he is admin or owner
-
         // User to add
         User user = findUser(id_user);
         Team team = teamService.findTeam(id_team);
-
         // check with temp 1
         if (isAdmin(team)) {
-            return ResponseEntity.ok().body( teamService.addMember(user, team));
+            return ResponseEntity.ok().body(teamService.addMember(user, team));
         } else {
             return ResponseEntity.ok().body("You are not admin");
         }
     }
 
-    /*public ResponseEntity<String> addAdminInTeam(long id_user, long id_team) {
+    public ResponseEntity<String> addAdminInTeam(long id_user, long id_team) {
         // get the authenticated user and check if he is admin or owner
-
-        // User to set admin
+        // User to add
         User user = findUser(id_user);
         Team team = teamService.findTeam(id_team);
-
         // check with temp 1
-        if (isAdminOrOwner(team)) {
-            String added = teamService.addAdmin(user, team);
-            if (added.equals("Successfully added")) {
-                return ResponseEntity.ok().body("Member successfully added");
-            } else {
-                return ResponseEntity.ok().body("Member is member is already in Team");
-            }
+        if (isAdmin(team)) {
+            return ResponseEntity.ok().body(teamService.addAdmin(user, team));
         } else {
             return ResponseEntity.ok().body("You are not admin");
         }
-    }*/
+    }
 
     public boolean isAdmin(Team team) {
         // get the authenticated

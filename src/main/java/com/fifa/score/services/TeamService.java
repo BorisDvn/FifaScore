@@ -4,7 +4,6 @@ import com.fifa.score.models.Team;
 import com.fifa.score.models.User;
 import com.fifa.score.repositories.TeamRepository;
 import com.fifa.score.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,46 +32,33 @@ public class TeamService {
         return teamRepository.findAll();
     }
 
-    public void addTeam(Team team) {
-        team.setCreation_date(LocalDate.now());
-        teamRepository.save(team);
-        // return ResponseEntity.ok().body("Successfully added");
-    }
-
-    public Team addTeamReturnTeam(Team team) {
+    public Team addTeam(Team team) {
         team.setCreation_date(LocalDate.now());
         return teamRepository.save(team);
-        // return ResponseEntity.ok().body("Successfully added");
     }
 
-    public ResponseEntity<String> deleteTeam(long id) {
+    /*public ResponseEntity<String> deleteTeam(long id) {
         Team team = findTeam(id);
         teamRepository.delete(team);
         return ResponseEntity.ok().body("Successfully deleted");
-    }
+    }*/
 
-   public String addMember(User user, Team team) {
-
+    public String addMember(User user, Team team) {
         // add standard c est pas mieux d envoyer les ids simplement?
-
         // verify is user is already in Team
         if (!user.getTeams().contains(team)) {
-
             user.getTeams().add(team);
             userRepository.save(user);
             return "Successfully added";
         } else {
             return "Member is already in Team";
         }
-   }
+    }
 
     public String addAdmin(User user, Team team) {
-
         // add standard c est pas mieux d envoyer les ids simplement?
-
         // verify is member is already in Team
         if (!user.getAdmin_for_team().contains(team)) {
-
             user.getAdmin_for_team().add(team);
             userRepository.save(user);
             return "Successfully added";
@@ -80,8 +66,6 @@ public class TeamService {
             return "user is already admin";
         }
     }
-
-
 
 
 }

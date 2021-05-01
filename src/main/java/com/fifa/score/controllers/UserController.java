@@ -40,8 +40,13 @@ public class UserController {
         return userService.deleteTeam(id);
     }*/
 
-    @PostMapping("addMember")
+    @GetMapping("addMember")
     public ResponseEntity<String> addMemberInTeam(@RequestParam("user") long id_user, @RequestParam("team") long id_team) {
         return userService.addMemberInTeam(id_user, id_team);
+    }
+
+    @GetMapping("addAdmin")
+    public ResponseEntity<String> SetAdminTeam(@RequestParam("user") long id_user, @RequestParam("team") long id_team) {
+        return userService.addAdminInTeam(id_user, id_team);
     }
 }
